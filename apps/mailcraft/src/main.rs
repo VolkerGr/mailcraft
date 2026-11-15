@@ -1658,6 +1658,13 @@ fn main() -> eframe::Result {
     graphics::configure(&mut options, eframe::wgpu::Backends::from_env());
     let (prefs, settings_unread) = load_prefs();
     let close_to_tray = prefs.as_ref().is_some_and(|ui| ui.close_to_tray);
+    // File › Options › General: the control channel at every launch, unless `--control` or
+    // `MAILCRAFT_CONTROL_PORT` chose a port already.
+    if control_port.is_none()
+        && let Some(ui) = prefs.as_ref().filter(|ui| ui.control_autostart)
+    {
+        control_port = Some(ui.control_port);
+    }
     let restored = prefs.as_ref().and_then(|ui| ui.window).and_then(WindowGeometry::sanitized);
     if let Some(window) = restored {
         options.viewport = window.apply(options.viewport);

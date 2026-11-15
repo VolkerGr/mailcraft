@@ -674,6 +674,11 @@ msgstr "Una dirección web, una dirección de correo, un número de teléfono (t
 msgid "AM"
 msgstr "a. m."
 
+#. interface
+#: crates/ui-egui/src/mail_view.rs
+msgid "Aa"
+msgstr ""
+
 #. android, ribbon location
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/Navigation.kt crates/ui-egui/src/lib.rs
 #, fuzzy
@@ -3651,6 +3656,11 @@ msgstr "Colaboradores"
 #, fuzzy
 msgid "Contributors choose their own names; see docs/contributors.md."
 msgstr "Los colaboradores eligen sus propios nombres; consulte docs/contributors.md."
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Control port"
+msgstr ""
 
 #. android
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/MailListBar.kt
@@ -8151,6 +8161,16 @@ msgstr "Enumerar notas"
 msgid "List Tasks"
 msgstr "Enumerar tareas"
 
+#. command label
+#: crates/ui-egui/src/lib.rs
+msgid "List Text Size"
+msgstr ""
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "List text size"
+msgstr ""
+
 #. android
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/Tasks.kt
 #, fuzzy
@@ -11501,6 +11521,11 @@ msgstr "Abre la página de GitHub en su navegador, ya rellenada: usted la revisa
 #, fuzzy
 msgid "Opens Microsoft's approval page in your browser. Sign in there with an administrator account and accept; MailCraft carries on by itself."
 msgstr "Abre la página de aprobación de Microsoft en tu navegador. Inicia sesión allí con una cuenta de administrador y acepta; MailCraft continúa por sí solo."
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Opens MailCraft's control channel on this computer only, at every start, so an agent can drive it through MCP (mailcraft-cli mcp --connect). Takes effect the next time MailCraft starts."
+msgstr ""
 
 #. interface
 #: crates/ui-egui/src/reading/sharing.rs
@@ -15518,6 +15543,16 @@ msgstr "Fecha de inicio:"
 msgid "Start over"
 msgstr "Empezar de nuevo"
 
+#. command label
+#: crates/ui-egui/src/lib.rs
+msgid "Start the Control Channel at Launch"
+msgstr ""
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Start the control channel at launch"
+msgstr ""
+
 #. interface
 #: crates/ui-egui/src/auto_replies.rs
 #, fuzzy
@@ -16098,6 +16133,11 @@ msgstr "Efectos de texto"
 #, fuzzy
 msgid "Text Highlight Color"
 msgstr "Color de resaltado del texto"
+
+#. interface
+#: crates/ui-egui/src/mail_view.rs
+msgid "Text size of the list"
+msgstr ""
 
 #. interface
 #: crates/ui-egui/src/forms.rs
