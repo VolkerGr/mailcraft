@@ -142,7 +142,8 @@ pub fn show(app: &mut MailApp, ui: &mut Ui) {
     let frame = egui::Frame::NONE.fill(t.surface).stroke(Stroke::new(1.0, t.border));
     if pane == Pane::Bottom {
         let max = (ui.available_height() - 140.0).max(160.0);
-        let h = if app.ui.list_height > 0.0 { app.ui.list_height } else { (ui.available_height() * 0.42).clamp(140.0, 520.0) };
+        // Where the owner left the divider, else 40 % list and 60 % reading pane.
+        let h = if app.ui.list_height > 0.0 { app.ui.list_height } else { ui.available_height() * 0.4 };
         // The splitter under the list: egui names a panel's resize handle after the panel.
         let splitter = ui.scope_id().with_salt(egui::IdSalt::new("message_list")).with("__resize");
         let shown = egui::Panel::top("message_list")
@@ -150,7 +151,12 @@ pub fn show(app: &mut MailApp, ui: &mut Ui) {
             .size_range(120.0..=max)
             .resizable(true)
             .frame(frame)
-            .show(ui, |ui| list(app, ui));
+            .show(ui, |ui| {
+                // The pane keeps its height whatever the list holds: with few or no messages it
+                // would otherwise shrink to its content, and its divider would jump about.
+                ui.set_min_height(ui.available_height());
+                list(app, ui)
+            });
         app.hit.add("messageList", 0, shown.response.rect);
         // Only the owner's resize of the splitter changes the height kept, by a drag (its last frame
         // included) or through assistive technology: a window too short for it lays the list out
