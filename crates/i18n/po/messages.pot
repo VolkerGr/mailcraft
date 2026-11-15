@@ -13332,6 +13332,13 @@ msgstr ""
 
 #. ribbon
 #: crates/ui-egui/src/ribbon.rs
+msgid ""
+"Text\n"
+"Size"
+msgstr ""
+
+#. ribbon
+#: crates/ui-egui/src/ribbon.rs
 msgid "Text Box"
 msgstr ""
 
@@ -13343,6 +13350,11 @@ msgstr ""
 #. command label, ribbon
 #: crates/engine/src/cmd/format.rs crates/ui-egui/src/ribbon.rs
 msgid "Text Highlight Color"
+msgstr ""
+
+#. ribbon
+#: crates/ui-egui/src/ribbon.rs
+msgid "Text Size of the List"
 msgstr ""
 
 #. interface

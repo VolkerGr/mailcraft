@@ -623,7 +623,7 @@ msgstr "AM"
 #. interface
 #: crates/ui-egui/src/mail_view.rs
 msgid "Aa"
-msgstr ""
+msgstr "Aa"
 
 #. android, ribbon location
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/Navigation.kt crates/ui-egui/src/lib.rs
@@ -3458,7 +3458,7 @@ msgstr "Mitwirkende wählen ihren Namen selbst; siehe docs/contributors.md."
 #. interface
 #: crates/ui-egui/src/backstage.rs
 msgid "Control port"
-msgstr ""
+msgstr "Steuerport"
 
 #. android
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/MailListBar.kt
@@ -7647,12 +7647,12 @@ msgstr "Aufgaben auflisten"
 #. command label
 #: crates/ui-egui/src/lib.rs
 msgid "List Text Size"
-msgstr ""
+msgstr "Textgröße der Liste"
 
 #. interface
 #: crates/ui-egui/src/backstage.rs
 msgid "List text size"
-msgstr ""
+msgstr "Textgröße der Liste"
 
 #. android
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/Tasks.kt
@@ -10788,7 +10788,7 @@ msgstr "Öffnet die Genehmigungsseite von Microsoft in Ihrem Browser. Melden Sie
 #. interface
 #: crates/ui-egui/src/backstage.rs
 msgid "Opens MailCraft's control channel on this computer only, at every start, so an agent can drive it through MCP (mailcraft-cli mcp --connect). Takes effect the next time MailCraft starts."
-msgstr ""
+msgstr "Öffnet bei jedem Start den Steuerkanal von MailCraft, nur auf diesem Computer, damit ein Agent die App über MCP bedienen kann (mailcraft-cli mcp --connect). Gilt ab dem nächsten Start."
 
 #. interface
 #: crates/ui-egui/src/reading/sharing.rs
@@ -14596,12 +14596,12 @@ msgstr "Neu beginnen"
 #. command label
 #: crates/ui-egui/src/lib.rs
 msgid "Start the Control Channel at Launch"
-msgstr ""
+msgstr "Steuerkanal beim Start öffnen"
 
 #. interface
 #: crates/ui-egui/src/backstage.rs
 msgid "Start the control channel at launch"
-msgstr ""
+msgstr "Steuerkanal beim Start öffnen"
 
 #. interface
 #: crates/ui-egui/src/auto_replies.rs
@@ -15127,6 +15127,15 @@ msgstr "Text"
 
 #. ribbon
 #: crates/ui-egui/src/ribbon.rs
+msgid ""
+"Text\n"
+"Size"
+msgstr ""
+"Text-\n"
+"größe"
+
+#. ribbon
+#: crates/ui-egui/src/ribbon.rs
 msgid "Text Box"
 msgstr "Textfeld"
 
@@ -15140,10 +15149,15 @@ msgstr "Texteffekte"
 msgid "Text Highlight Color"
 msgstr "Texthervorhebungsfarbe"
 
+#. ribbon
+#: crates/ui-egui/src/ribbon.rs
+msgid "Text Size of the List"
+msgstr "Textgröße der Liste"
+
 #. interface
 #: crates/ui-egui/src/mail_view.rs
 msgid "Text size of the list"
-msgstr ""
+msgstr "Textgröße der Liste"
 
 #. interface
 #: crates/ui-egui/src/forms.rs
