@@ -256,7 +256,7 @@ fn direction_label(sort: SortBy, descending: bool) -> &'static str {
 }
 
 /// The sizes the list's text can be set to, in percent.
-const LIST_SIZES: [u16; 7] = [80, 90, 100, 115, 130, 150, 175];
+pub(crate) const LIST_SIZES: [u16; 7] = [80, 90, 100, 115, 130, 150, 175];
 
 /// The header above the list: All and Unread as tabs on the left (the filter in use in the
 /// accent colour, with a line under it), and on the right how the list is arranged, with the
@@ -315,6 +315,8 @@ fn list_header(app: &mut MailApp, ui: &mut Ui) {
     let aa = Rect::from_min_max(pos2(sr.min.x - 30.0, r.min.y + 22.0), pos2(sr.min.x - 6.0, r.min.y + 44.0));
     let aa_resp = ui.interact(aa, ui.scope_id().with("list_text_size"), Sense::click()).on_hover_text(tl!("Text size of the list"));
     app.hit.add("listSize", 0, aa);
+    // Drawn as a button, so that it is seen to be one.
+    ui.painter().rect_stroke(aa, 4.0, Stroke::new(1.0, t.border_strong), egui::StrokeKind::Inside);
     if aa_resp.hovered() {
         ui.painter().rect_filled(aa, 4.0, t.hover);
     }

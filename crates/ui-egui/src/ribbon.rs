@@ -138,6 +138,7 @@ pub(crate) enum Menu {
     GmailCategories,
     NavigationBar,
     Preview,
+    ListTextSize,
     ArrangeBy,
     Theme,
     RibbonLayout,
@@ -1056,6 +1057,7 @@ fn view_of_any(app: &MailApp) -> Tab {
                 Item::big("conversations", "Show as\nConversations", "view.conversations", no()).checked(v.conversations).at(1, 2),
                 Item::big_menu("preview", "previewLines", "Message\nPreview", "Message Preview", Menu::Preview).at(1, 3),
                 Item::big("density", "Tighter\nSpacing", "view.density", no()).checked(tight).at(1, 4),
+                Item::big_menu("listTextSize", "fontSize", "Text\nSize", "Text Size of the List", Menu::ListTextSize).at(1, 5),
             ],
         ),
         g(
@@ -1494,6 +1496,12 @@ fn menu_contents(ui: &mut Ui, app: &mut MailApp, menu: Menu) {
             let tabs = app.session.view.gmail_tabs;
             mi_check(ui, app, "As Folders", !tabs, "view.gmailCategories", json!({"value": "folders"}));
             mi_check(ui, app, "As Tabs above the Inbox", tabs, "view.gmailCategories", json!({"value": "tabs"}));
+        }
+        Menu::ListTextSize => {
+            let now = app.ui.list_size.percent();
+            for percent in crate::mail_view::LIST_SIZES {
+                mi_check(ui, app, &format!("{percent} %"), percent == now, "ui.listTextSize", json!({"value": percent}));
+            }
         }
         Menu::Preview => {
             let lines = app.session.prefs.preview_lines;

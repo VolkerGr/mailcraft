@@ -13824,6 +13824,13 @@ msgstr "Text"
 
 #. ribbon
 #: crates/ui-egui/src/ribbon.rs
+msgid ""
+"Text\n"
+"Size"
+msgstr ""
+
+#. ribbon
+#: crates/ui-egui/src/ribbon.rs
 #, fuzzy
 msgid "Text Box"
 msgstr "Casetă text"
@@ -13839,6 +13846,11 @@ msgstr "Efecte text"
 #, fuzzy
 msgid "Text Highlight Color"
 msgstr "Culoare evidențiere text"
+
+#. ribbon
+#: crates/ui-egui/src/ribbon.rs
+msgid "Text Size of the List"
+msgstr ""
 
 #. interface
 #: crates/ui-egui/src/mail_view.rs

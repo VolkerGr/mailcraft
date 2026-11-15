@@ -13824,6 +13824,13 @@ msgstr "Szöveg"
 
 #. ribbon
 #: crates/ui-egui/src/ribbon.rs
+msgid ""
+"Text\n"
+"Size"
+msgstr ""
+
+#. ribbon
+#: crates/ui-egui/src/ribbon.rs
 #, fuzzy
 msgid "Text Box"
 msgstr "Szövegdoboz"
@@ -13839,6 +13846,11 @@ msgstr "Szöveghatások"
 #, fuzzy
 msgid "Text Highlight Color"
 msgstr "Szövegkiemelő szín"
+
+#. ribbon
+#: crates/ui-egui/src/ribbon.rs
+msgid "Text Size of the List"
+msgstr ""
 
 #. interface
 #: crates/ui-egui/src/mail_view.rs

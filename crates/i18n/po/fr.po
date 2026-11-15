@@ -13111,6 +13111,13 @@ msgstr "Texte"
 
 #. ribbon
 #: crates/ui-egui/src/ribbon.rs
+msgid ""
+"Text\n"
+"Size"
+msgstr ""
+
+#. ribbon
+#: crates/ui-egui/src/ribbon.rs
 msgid "Text Box"
 msgstr "Zone de texte"
 
@@ -13123,6 +13130,11 @@ msgstr "Effets de texte"
 #: crates/engine/src/cmd/format.rs crates/ui-egui/src/ribbon.rs
 msgid "Text Highlight Color"
 msgstr "Couleur de surbrillance du texte"
+
+#. ribbon
+#: crates/ui-egui/src/ribbon.rs
+msgid "Text Size of the List"
+msgstr ""
 
 #. interface
 #: crates/ui-egui/src/mail_view.rs
