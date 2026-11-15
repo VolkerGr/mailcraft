@@ -613,11 +613,6 @@ msgstr "Webcím, e-mail cím, telefonszám (tel:) vagy más cím, mint például
 msgid "AM"
 msgstr "de."
 
-#. interface
-#: crates/ui-egui/src/mail_view.rs
-msgid "Aa"
-msgstr ""
-
 #. android, ribbon location
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/Navigation.kt crates/ui-egui/src/lib.rs
 #, fuzzy

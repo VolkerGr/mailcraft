@@ -607,11 +607,6 @@ msgstr "网址、电子邮件地址、电话号码（tel:）或其他地址，�
 msgid "AM"
 msgstr "上午"
 
-#. interface
-#: crates/ui-egui/src/mail_view.rs
-msgid "Aa"
-msgstr ""
-
 #. android, ribbon location
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/Navigation.kt crates/ui-egui/src/lib.rs
 #, fuzzy

@@ -306,29 +306,17 @@ fn list_header(app: &mut MailApp, ui: &mut Ui) {
         crate::widgets::mi_check(ui, app, "Show as Conversations", conv, "view.conversations", json!({}));
         let groups = app.session.prefs.show_groups;
         crate::widgets::mi_check(ui, app, "Show in Groups", groups, "view.groups", json!({"value": !groups}));
+        // The text size of the list, 70 to 120 % in steps of 5.
+        let size_now = app.ui.list_size.percent();
+        ui.menu_button(tl!("Text size of the list"), |ui| {
+            for percent in LIST_SIZES {
+                crate::widgets::mi_check(ui, app, &format!("{percent} %"), percent == size_now, "ui.listTextSize", json!({"value": percent}));
+            }
+        });
         // The filters that have no tab of their own.
         ui.separator();
         for f in Filter::ALL {
             crate::widgets::mi_check(ui, app, f.label(), f == filter, "view.filter", json!({"value": f}));
-        }
-    });
-
-    // The text size of the list: "Aa", left of the arrangement, and a menu of sizes.
-    let aa = Rect::from_min_max(pos2(sr.min.x - 30.0, r.min.y + 22.0), pos2(sr.min.x - 6.0, r.min.y + 44.0));
-    let aa_resp = ui.interact(aa, ui.scope_id().with("list_text_size"), Sense::click()).on_hover_text(tl!("Text size of the list"));
-    app.hit.add("listSize", 0, aa);
-    // Drawn as a button, so that it is seen to be one.
-    ui.painter().rect_stroke(aa, 4.0, Stroke::new(1.0, t.border_strong), egui::StrokeKind::Inside);
-    if aa_resp.hovered() {
-        ui.painter().rect_filled(aa, 4.0, t.hover);
-    }
-    ui.painter().text(aa.center(), Align2::CENTER_CENTER, tl!("Aa"), semibold(12.0), t.text);
-    let size_now = app.ui.list_size.percent();
-    egui::Popup::menu(&aa_resp).show(|ui| {
-        ui.set_min_width(120.0);
-        for percent in LIST_SIZES {
-            let checked = percent == size_now;
-            crate::widgets::mi_check(ui, app, &format!("{percent} %"), checked, "ui.listTextSize", json!({"value": percent}));
         }
     });
 
@@ -344,7 +332,7 @@ fn list_header(app: &mut MailApp, ui: &mut Ui) {
     let mut x = r.min.x + TEXT_LEFT - 1.0;
     // In a list too narrow for them all, the tab in use is the last to give: the others are
     // cut short, then left out (the arrangement's menu has every filter), then it is cut too.
-    let mut over = tabs.iter().map(|(.., w)| w + 3.0).sum::<f32>() + TAB_GAP * tabs.len().saturating_sub(1) as f32 - (aa.min.x - 8.0 - x);
+    let mut over = tabs.iter().map(|(.., w)| w + 3.0).sum::<f32>() + TAB_GAP * tabs.len().saturating_sub(1) as f32 - (sr.min.x - 8.0 - x);
     for (.., w) in tabs.iter_mut().rev().filter(|(f, ..)| *f != filter) {
         let cut = over.clamp(0.0, (*w - TAB_MIN).max(0.0));
         *w -= cut;

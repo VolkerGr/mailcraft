@@ -583,11 +583,6 @@ msgstr ""
 msgid "AM"
 msgstr "AM"
 
-#. interface
-#: crates/ui-egui/src/mail_view.rs
-msgid "Aa"
-msgstr "Aa"
-
 #. android, ribbon location
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/Navigation.kt crates/ui-egui/src/lib.rs
 #, fuzzy
@@ -20988,6 +20983,9 @@ msgstr "„{subject}“ war zu groß zum Herunterladen: nur die Kopfzeilen sind 
 #, fuzzy
 msgid "“{subject}” wasn't found on its server, so it can't be forwarded as an attachment"
 msgstr "„{subject}“ wurde auf seinem Server nicht gefunden, daher kann die Nachricht nicht als Anlage weitergeleitet werden"
+
+#~ msgid "Aa"
+#~ msgstr "Aa"
 
 #, fuzzy
 #~ msgid "{not_sending_yet}, and no other account here has a mail server to send this through."
