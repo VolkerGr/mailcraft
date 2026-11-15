@@ -274,7 +274,7 @@ fn direction_label(sort: SortBy, descending: bool) -> &'static str {
 }
 
 /// The sizes the list's text can be set to, in percent.
-pub(crate) const LIST_SIZES: [u16; 7] = [80, 90, 100, 115, 130, 150, 175];
+pub(crate) const LIST_SIZES: [u16; 11] = [70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120];
 
 /// The header above the list: All and Unread as tabs on the left (the filter in use in the
 /// accent colour, with a line under it), and on the right how the list is arranged, with the
@@ -322,6 +322,8 @@ fn list_header(app: &mut MailApp, ui: &mut Ui) {
         crate::widgets::mi(ui, app, "Reverse Sort", "view.reverseSort", json!({}));
         let conv = app.session.view.conversations;
         crate::widgets::mi_check(ui, app, "Show as Conversations", conv, "view.conversations", json!({}));
+        let groups = app.session.prefs.show_groups;
+        crate::widgets::mi_check(ui, app, "Show in Groups", groups, "view.groups", json!({"value": !groups}));
         // The filters that have no tab of their own.
         ui.separator();
         for f in Filter::ALL {

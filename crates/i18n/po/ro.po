@@ -14869,7 +14869,7 @@ msgid "Show in Calendar"
 msgstr "Afișare în calendar"
 
 #. command label, interface
-#: crates/engine/src/cmd/view.rs crates/ui-egui/src/ribbon.rs
+#: crates/engine/src/cmd/view.rs crates/ui-egui/src/mail_view.rs crates/ui-egui/src/ribbon.rs
 #, fuzzy
 msgid "Show in Groups"
 msgstr "Afișare în grupuri"
