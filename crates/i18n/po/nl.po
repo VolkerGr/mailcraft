@@ -12619,7 +12619,7 @@ msgid "Show in Calendar"
 msgstr "Weergeven in agenda"
 
 #. command label, interface
-#: crates/engine/src/cmd/view.rs crates/ui-egui/src/ribbon.rs
+#: crates/engine/src/cmd/view.rs crates/ui-egui/src/mail_view.rs crates/ui-egui/src/ribbon.rs
 #, fuzzy
 msgid "Show in Groups"
 msgstr "Weergeven in groepen"

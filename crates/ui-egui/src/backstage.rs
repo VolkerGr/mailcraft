@@ -689,7 +689,7 @@ fn options(app: &mut MailApp, ui: &mut Ui, t: &Tokens) {
     row(ui, tl!("List text size"), |ui| {
         let cur = app.ui.list_size.percent();
         egui::ComboBox::from_id_salt("opt_list_size").selected_text(format!("{cur}%")).show_ui(ui, |ui| {
-            for p in [80u16, 90, 100, 115, 130, 150, 175] {
+            for p in crate::mail_view::LIST_SIZES {
                 if ui.selectable_label(p == cur, format!("{p}%")).clicked() {
                     let _ = app.run("ui.listTextSize", json!({"value": p}));
                 }
