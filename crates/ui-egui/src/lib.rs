@@ -833,6 +833,9 @@ pub struct SignInRequest {
 pub use mailcraft_host::calendar::{CalendarCheckRequest, CalendarCheckResult, CalendarCheckStep};
 pub use mailcraft_host::graph::{GraphRequest, GraphResult};
 
+/// The port the control channel uses when it is started at launch and none is chosen.
+pub const DEFAULT_CONTROL_PORT: u16 = 7991;
+
 /// A sign-in the host is busy with.
 struct SigningIn {
     /// For Microsoft Graph (calendar, contacts, sending) rather than for mail.
@@ -891,6 +894,12 @@ pub struct UiState {
     /// The owner has seen where the window goes on its first close to the tray (#544).
     #[serde(deserialize_with = "theme::lenient_bool")]
     pub close_to_tray_notice_seen: bool,
+    /// Desktop: start the control channel (the one `mailcraft --control PORT` opens, which agents
+    /// reach MailCraft by through MCP) at every launch, on `control_port`; off unless turned on.
+    /// Read at the start, so a change is in force from the next launch.
+    pub control_autostart: bool,
+    /// The port of that channel (loopback only).
+    pub control_port: u16,
     /// The accent colour of the window.
     pub accent: theme::Accent,
     /// The greys of the dark theme: neutral (the default) or tinted blue (#1384).
@@ -912,6 +921,8 @@ pub struct UiState {
     pub swipe_right: swipe::Action,
     /// Interface size in percent: scales the whole interface on top of the system's display scale.
     pub interface_size: theme::InterfaceSize,
+    /// The text size of the message list's rows in percent, apart from the interface's.
+    pub list_size: theme::InterfaceSize,
     /// Desktop: the main window's size and position, restored at the next launch.
     pub window: Option<window_geometry::WindowGeometry>,
     /// Desktop: the size and place each kind of window of its own last had (#286), for the next
@@ -1034,6 +1045,8 @@ impl Default for UiState {
             animations: motion::Motion::default(),
             close_to_tray: false,
             close_to_tray_notice_seen: false,
+            control_autostart: false,
+            control_port: DEFAULT_CONTROL_PORT,
             accent: theme::Accent::default(),
             dark_style: theme::DarkStyle::default(),
             light_messages: false,
@@ -1042,6 +1055,7 @@ impl Default for UiState {
             swipe_left: swipe::Action::None,
             swipe_right: swipe::Action::None,
             interface_size: theme::InterfaceSize::default(),
+            list_size: theme::InterfaceSize::default(),
             window: None,
             window_places: Default::default(),
             language: i18n::AUTO.into(),
@@ -1153,6 +1167,7 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
         r#"{"language": "auto"|"en"|"fr"|"de"|"es"|"it"|"nl"|"ro"|"hu"|"pl"|"cs"|"zh_CN"|"ka"|"pseudo"}"#,
     ),
     ("ui.interfaceSize", "Interface Size", "File › Options", r#"{"value": 80-200}"#),
+    ("ui.listTextSize", "List Text Size", "View", r#"{"value": 80-200} — the text size of the message list's rows, in percent"#),
     (
         "ui.previewAttachment",
         "Preview Attachment",
@@ -1340,6 +1355,12 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
     ("ui.microsoftClientId", "Microsoft Application ID", "File › Options", r#"{"value": string (empty: the build's own)}"#),
     ("ui.googleClientId", "Google Desktop Application ID", "File › Options", r#"{"value": string (empty: the build's own)}"#),
     ("ui.rememberSignIn", "Remember Passwords and Sign-Ins", "File › Options", r#"{"value"?: bool (default: toggle)}"#),
+    (
+        "ui.controlAutostart",
+        "Start the Control Channel at Launch",
+        "File › Options › General",
+        r#"{"value"?: bool (default: toggle), "port"?: 1024-65535 (default 7991)} — whether MailCraft opens its control channel (loopback only) at every launch, for agents through MCP; in force from the next launch"#,
+    ),
     ("ui.closeToTray", "Close to system tray", "File › Options › General", r#"{"value"?: bool (default: toggle)}"#),
     (
         "ui.importPrivateKey",
@@ -2792,6 +2813,13 @@ impl MailApp {
                 }
                 None => Err("`value` is a percentage from 80 to 200".into()),
             },
+            "ui.listTextSize" => match p.get("value").and_then(Value::as_f64).and_then(theme::InterfaceSize::from_percent) {
+                Some(size) => {
+                    self.ui.list_size = size;
+                    Ok(json!({"value": size.percent()}))
+                }
+                None => Err("`value` is a percentage from 80 to 200".into()),
+            },
             "ui.advancedSearch" => advanced_search::command(self, p),
             "ui.previewAttachment" => attachment_preview::command(self, p),
             "ui.showAttachmentMessage" => {
@@ -2839,6 +2867,21 @@ impl MailApp {
                 }
                 self.ui.google_client_id = id.to_string();
                 Ok(json!({"configured": !id.is_empty()}))
+            }
+            "ui.controlAutostart" => {
+                let value = match p.get("value") {
+                    None => !self.ui.control_autostart,
+                    Some(Value::Bool(value)) => *value,
+                    Some(_) => return Some(Err("value must be a boolean".into())),
+                };
+                if let Some(port) = p.get("port") {
+                    match port.as_u64().and_then(|n| u16::try_from(n).ok()).filter(|n| *n >= 1024) {
+                        Some(n) => self.ui.control_port = n,
+                        None => return Some(Err("`port` is a number from 1024 to 65535".into())),
+                    }
+                }
+                self.ui.control_autostart = value;
+                Ok(json!({"value": value, "port": self.ui.control_port, "inForce": "from the next launch"}))
             }
             "ui.closeToTray" => {
                 let value = match p.get("value") {

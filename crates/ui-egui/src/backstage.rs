@@ -666,6 +666,22 @@ fn options(app: &mut MailApp, ui: &mut Ui, t: &Tokens) {
         if switch.changed() {
             let _ = app.run("ui.closeToTray", json!({"value": on}));
         }
+        let mut auto = app.ui.control_autostart;
+        let switch = ui.checkbox(&mut auto, tl!("Start the control channel at launch")).on_hover_text(tl!(
+            "Opens MailCraft's control channel on this computer only, at every start, so an agent can drive it through MCP (mailcraft-cli mcp --connect). Takes effect the next time MailCraft starts."
+        ));
+        app.hit.add("optionControlAutostart", 0, switch.rect);
+        if switch.changed() {
+            let _ = app.run("ui.controlAutostart", json!({"value": auto}));
+        }
+        if app.ui.control_autostart {
+            row(ui, tl!("Control port"), |ui| {
+                let mut port = app.ui.control_port;
+                if ui.add(egui::DragValue::new(&mut port).range(1024..=65535)).changed() {
+                    let _ = app.run("ui.controlAutostart", json!({"value": true, "port": port}));
+                }
+            });
+        }
         #[cfg(any(target_os = "linux", target_os = "freebsd"))]
         ui.label(tl!("On Wayland, restart MailCraft after enabling this option. A reachable X11/XWayland server and a system tray are required."));
     }
@@ -764,6 +780,16 @@ fn options(app: &mut MailApp, ui: &mut Ui, t: &Tokens) {
             for p in crate::theme::InterfaceSize::PRESETS {
                 if ui.selectable_label(p == cur, format!("{p}%")).clicked() {
                     let _ = app.run("ui.interfaceSize", json!({"value": p}));
+                }
+            }
+        });
+    });
+    row(ui, tl!("List text size"), |ui| {
+        let cur = app.ui.list_size.percent();
+        egui::ComboBox::from_id_salt("opt_list_size").selected_text(format!("{cur}%")).show_ui(ui, |ui| {
+            for p in [80u16, 90, 100, 115, 130, 150, 175] {
+                if ui.selectable_label(p == cur, format!("{p}%")).clicked() {
+                    let _ = app.run("ui.listTextSize", json!({"value": p}));
                 }
             }
         });
