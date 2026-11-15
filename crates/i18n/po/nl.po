@@ -603,6 +603,11 @@ msgstr "Een webadres, een e-mailadres, een telefoonnummer (tel:) of een ander ad
 msgid "AM"
 msgstr "a.m."
 
+#. interface
+#: crates/ui-egui/src/mail_view.rs
+msgid "Aa"
+msgstr ""
+
 #. android, ribbon location
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/Navigation.kt crates/ui-egui/src/lib.rs
 #, fuzzy
@@ -3108,6 +3113,11 @@ msgstr "Bijdragers"
 #, fuzzy
 msgid "Contributors choose their own names; see docs/contributors.md."
 msgstr "Bijdragers kiezen zelf hun namen; zie docs/contributors.md."
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Control port"
+msgstr ""
 
 #. android
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/MailListBar.kt
@@ -7010,6 +7020,16 @@ msgstr ""
 msgid "List Tasks"
 msgstr "Taken opsommen"
 
+#. command label
+#: crates/ui-egui/src/lib.rs
+msgid "List Text Size"
+msgstr ""
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "List text size"
+msgstr ""
+
 #. android
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/MailListScreen.kt
 msgid "Loading…"
@@ -9772,6 +9792,11 @@ msgstr "Openen…"
 #, fuzzy
 msgid "Opens GitHub's page in your browser, filled in: you check it and submit it there."
 msgstr "Opent de pagina van GitHub in uw browser, al ingevuld: u controleert die en dient hem daar in."
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Opens MailCraft's control channel on this computer only, at every start, so an agent can drive it through MCP (mailcraft-cli mcp --connect). Takes effect the next time MailCraft starts."
+msgstr ""
 
 #. interface
 #: crates/ui-egui/src/reading/sharing.rs
@@ -13198,6 +13223,16 @@ msgstr "Begindatum:"
 msgid "Start over"
 msgstr "Opnieuw beginnen"
 
+#. command label
+#: crates/ui-egui/src/lib.rs
+msgid "Start the Control Channel at Launch"
+msgstr ""
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Start the control channel at launch"
+msgstr ""
+
 #. interface
 #: crates/ui-egui/src/auto_replies.rs
 #, fuzzy
@@ -13669,6 +13704,11 @@ msgstr "Teksteffecten"
 #, fuzzy
 msgid "Text Highlight Color"
 msgstr "Tekstmarkeringskleur"
+
+#. interface
+#: crates/ui-egui/src/mail_view.rs
+msgid "Text size of the list"
+msgstr ""
 
 #. interface
 #: crates/ui-egui/src/forms.rs

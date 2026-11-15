@@ -344,11 +344,19 @@ pub fn title_bar(app: &mut MailApp, ui: &mut Ui) {
             ui.horizontal_centered(|ui| {
                 ui.spacing_mut().item_spacing = vec2(2.0, 0.0);
                 // MailCraft's mark, then the Quick Access Toolbar: Send/Receive, Undo, Redo.
-                let (mark, _) = ui.allocate_exact_size(vec2(22.0, 22.0), Sense::hover());
-                if let Some(icon) = title_icon(ui.ctx()) {
-                    ui.painter().image(icon.id(), mark, egui::Rect::from_min_max(egui::pos2(0.0, 0.0), egui::pos2(1.0, 1.0)), egui::Color32::WHITE);
+                // Not on a Mac: its title bar carries no program icon, only the traffic lights.
+                if !mac {
+                    let (mark, _) = ui.allocate_exact_size(vec2(22.0, 22.0), Sense::hover());
+                    if let Some(icon) = title_icon(ui.ctx()) {
+                        ui.painter().image(
+                            icon.id(),
+                            mark,
+                            egui::Rect::from_min_max(egui::pos2(0.0, 0.0), egui::pos2(1.0, 1.0)),
+                            egui::Color32::WHITE,
+                        );
+                    }
+                    ui.add_space(8.0);
                 }
-                ui.add_space(8.0);
                 let sync_tip = if app.syncing() { tl!("Sending and receiving…") } else { tl!("Send/Receive All Folders") };
                 qat_button(ui, app, "sync", sync_tip, "ui.sync");
                 let undo = crate::i18n::fmt(tl!("Undo {what}"), &[("what", tl!(app.session.undo_label().unwrap_or("")))]);

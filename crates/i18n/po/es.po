@@ -583,6 +583,11 @@ msgstr ""
 msgid "AM"
 msgstr "a. m."
 
+#. interface
+#: crates/ui-egui/src/mail_view.rs
+msgid "Aa"
+msgstr ""
+
 #. android, ribbon location
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/Navigation.kt crates/ui-egui/src/lib.rs
 #, fuzzy
@@ -2963,6 +2968,11 @@ msgstr "Colaboradores"
 #, fuzzy
 msgid "Contributors choose their own names; see docs/contributors.md."
 msgstr "Los colaboradores eligen sus propios nombres; consulte docs/contributors.md."
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Control port"
+msgstr ""
 
 #. android
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/MailListBar.kt
@@ -6687,6 +6697,16 @@ msgstr ""
 msgid "List Tasks"
 msgstr "Enumerar tareas"
 
+#. command label
+#: crates/ui-egui/src/lib.rs
+msgid "List Text Size"
+msgstr ""
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "List text size"
+msgstr ""
+
 #. android
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/MailListScreen.kt
 msgid "Loading…"
@@ -9351,6 +9371,11 @@ msgstr ""
 #. interface
 #: crates/ui-egui/src/report_problem.rs
 msgid "Opens GitHub's page in your browser, filled in: you check it and submit it there."
+msgstr ""
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Opens MailCraft's control channel on this computer only, at every start, so an agent can drive it through MCP (mailcraft-cli mcp --connect). Takes effect the next time MailCraft starts."
 msgstr ""
 
 #. interface
@@ -12618,6 +12643,16 @@ msgstr ""
 msgid "Start over"
 msgstr "Empezar de nuevo"
 
+#. command label
+#: crates/ui-egui/src/lib.rs
+msgid "Start the Control Channel at Launch"
+msgstr ""
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Start the control channel at launch"
+msgstr ""
+
 #. interface
 #: crates/ui-egui/src/auto_replies.rs
 msgid "Start time:"
@@ -13055,6 +13090,11 @@ msgstr ""
 #. command label, ribbon
 #: crates/engine/src/cmd/format.rs crates/ui-egui/src/ribbon.rs
 msgid "Text Highlight Color"
+msgstr ""
+
+#. interface
+#: crates/ui-egui/src/mail_view.rs
+msgid "Text size of the list"
 msgstr ""
 
 #. interface

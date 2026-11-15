@@ -607,6 +607,11 @@ msgstr "网址、电子邮件地址、电话号码（tel:）或其他地址，�
 msgid "AM"
 msgstr "上午"
 
+#. interface
+#: crates/ui-egui/src/mail_view.rs
+msgid "Aa"
+msgstr ""
+
 #. android, ribbon location
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/Navigation.kt crates/ui-egui/src/lib.rs
 #, fuzzy
@@ -3124,6 +3129,11 @@ msgstr "贡献者"
 #, fuzzy
 msgid "Contributors choose their own names; see docs/contributors.md."
 msgstr "贡献者选择自己的名字；请参阅 docs/contributors.md。"
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Control port"
+msgstr ""
 
 #. android
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/MailListBar.kt
@@ -7063,6 +7073,16 @@ msgstr "列出便笺"
 msgid "List Tasks"
 msgstr "列出任务"
 
+#. command label
+#: crates/ui-egui/src/lib.rs
+msgid "List Text Size"
+msgstr ""
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "List text size"
+msgstr ""
+
 #. android
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/MailListScreen.kt
 msgid "Loading…"
@@ -9832,6 +9852,11 @@ msgstr "正在打开…"
 #, fuzzy
 msgid "Opens GitHub's page in your browser, filled in: you check it and submit it there."
 msgstr "在浏览器中打开已填好内容的 GitHub 页面，供您检查并提交。"
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Opens MailCraft's control channel on this computer only, at every start, so an agent can drive it through MCP (mailcraft-cli mcp --connect). Takes effect the next time MailCraft starts."
+msgstr ""
 
 #. interface
 #: crates/ui-egui/src/reading/sharing.rs
@@ -13276,6 +13301,16 @@ msgstr "开始日期："
 msgid "Start over"
 msgstr "重新开始"
 
+#. command label
+#: crates/ui-egui/src/lib.rs
+msgid "Start the Control Channel at Launch"
+msgstr ""
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Start the control channel at launch"
+msgstr ""
+
 #. interface
 #: crates/ui-egui/src/auto_replies.rs
 #, fuzzy
@@ -13751,6 +13786,11 @@ msgstr "文字效果"
 #, fuzzy
 msgid "Text Highlight Color"
 msgstr "文本突出显示颜色"
+
+#. interface
+#: crates/ui-egui/src/mail_view.rs
+msgid "Text size of the list"
+msgstr ""
 
 #. interface
 #: crates/ui-egui/src/forms.rs

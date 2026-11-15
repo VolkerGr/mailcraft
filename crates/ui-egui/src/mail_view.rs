@@ -109,6 +109,19 @@ fn drag_ghost(ui: &Ui) {
     );
 }
 
+/// The list's text size as a factor (1.0 at 100 %), set from the window's preference each time
+/// the list is drawn (`MailApp::ui.list_size`): the rows' text and their heights follow it.
+static LIST_SCALE: std::sync::atomic::AtomicU32 = std::sync::atomic::AtomicU32::new(0x3f80_0000);
+
+fn set_scale(factor: f32) {
+    LIST_SCALE.store(factor.to_bits(), std::sync::atomic::Ordering::Relaxed);
+}
+
+/// A size or height of the list's rows at the list's text size.
+fn px(base: f32) -> f32 {
+    base * f32::from_bits(LIST_SCALE.load(std::sync::atomic::Ordering::Relaxed))
+}
+
 pub fn show(app: &mut MailApp, ui: &mut Ui) {
     let t = Tokens::get(ui.ctx());
     drag_ghost(ui);
@@ -170,8 +183,8 @@ pub fn show(app: &mut MailApp, ui: &mut Ui) {
 /// laying out the rows before it.
 fn row_height(preview_lines: u8) -> f32 {
     match preview_lines.min(3) {
-        0 => ROW_H - PREVIEW_FIRST,
-        n => ROW_H + f32::from(n - 1) * PREVIEW_PITCH,
+        0 => px(ROW_H) - px(PREVIEW_FIRST),
+        n => px(ROW_H) + f32::from(n - 1) * px(PREVIEW_PITCH),
     }
 }
 
@@ -242,6 +255,9 @@ fn direction_label(sort: SortBy, descending: bool) -> &'static str {
     }
 }
 
+/// The sizes the list's text can be set to, in percent.
+const LIST_SIZES: [u16; 7] = [80, 90, 100, 115, 130, 150, 175];
+
 /// The header above the list: All and Unread as tabs on the left (the filter in use in the
 /// accent colour, with a line under it), and on the right how the list is arranged, with the
 /// arrow that turns it over. The folder's name is in the window's title and in the folder pane.
@@ -295,6 +311,23 @@ fn list_header(app: &mut MailApp, ui: &mut Ui) {
         }
     });
 
+    // The text size of the list: "Aa", left of the arrangement, and a menu of sizes.
+    let aa = Rect::from_min_max(pos2(sr.min.x - 30.0, r.min.y + 22.0), pos2(sr.min.x - 6.0, r.min.y + 44.0));
+    let aa_resp = ui.interact(aa, ui.scope_id().with("list_text_size"), Sense::click()).on_hover_text(tl!("Text size of the list"));
+    app.hit.add("listSize", 0, aa);
+    if aa_resp.hovered() {
+        ui.painter().rect_filled(aa, 4.0, t.hover);
+    }
+    ui.painter().text(aa.center(), Align2::CENTER_CENTER, tl!("Aa"), semibold(12.0), t.text);
+    let size_now = app.ui.list_size.percent();
+    egui::Popup::menu(&aa_resp).show(|ui| {
+        ui.set_min_width(120.0);
+        for percent in LIST_SIZES {
+            let checked = percent == size_now;
+            crate::widgets::mi_check(ui, app, &format!("{percent} %"), checked, "ui.listTextSize", json!({"value": percent}));
+        }
+    });
+
     // The tabs. A filter that has none (Flagged, Has Attachments, To Me) shows as a third one
     // while it is in use.
     let width = |f: Filter| ui.ctx().fonts_mut(|fonts| fonts.layout_no_wrap(tl!(f.label()).to_string(), regular(SENDER_TEXT), t.text).size().x);
@@ -307,7 +340,7 @@ fn list_header(app: &mut MailApp, ui: &mut Ui) {
     let mut x = r.min.x + TEXT_LEFT - 1.0;
     // In a list too narrow for them all, the tab in use is the last to give: the others are
     // cut short, then left out (the arrangement's menu has every filter), then it is cut too.
-    let mut over = tabs.iter().map(|(.., w)| w + 3.0).sum::<f32>() + TAB_GAP * tabs.len().saturating_sub(1) as f32 - (sr.min.x - 8.0 - x);
+    let mut over = tabs.iter().map(|(.., w)| w + 3.0).sum::<f32>() + TAB_GAP * tabs.len().saturating_sub(1) as f32 - (aa.min.x - 8.0 - x);
     for (.., w) in tabs.iter_mut().rev().filter(|(f, ..)| *f != filter) {
         let cut = over.clamp(0.0, (*w - TAB_MIN).max(0.0));
         *w -= cut;
@@ -487,6 +520,7 @@ fn search_bar(app: &mut MailApp, ui: &mut Ui, found: usize) {
 
 fn list(app: &mut MailApp, ui: &mut Ui) {
     let t = Tokens::get(ui.ctx());
+    set_scale(app.ui.list_size.zoom_factor());
     ui.spacing_mut().item_spacing = vec2(0.0, 0.0);
     list_header(app, ui);
     // Gmail's categories, when they are tabs above a Gmail Inbox's list (#911).
@@ -532,7 +566,7 @@ fn list(app: &mut MailApp, ui: &mut Ui) {
     let one_line = app.session.prefs.one_line;
     // The rows of a search on the server keep the height the preview lines ask for.
     let server_h = row_height(app.session.prefs.preview_lines);
-    let row_h = if one_line { ONE_LINE_H } else { server_h };
+    let row_h = if one_line { px(ONE_LINE_H) } else { server_h };
     let row_h = row_h - tightening(app.session.prefs.tight_spacing, one_line);
     // Below the local results of a search: More results on the server, and what came (R6.2).
     let searching = !app.session.view.search.trim().is_empty();
@@ -573,7 +607,7 @@ fn list(app: &mut MailApp, ui: &mut Ui) {
     let mut y = 0.0f32;
     for row in rows.iter() {
         if row.group.is_some() {
-            y += GROUP_H;
+            y += px(GROUP_H);
         }
         tops.push(y);
         y += row_h;
@@ -624,7 +658,7 @@ fn list(app: &mut MailApp, ui: &mut Ui) {
             && let Some(i) = rows.iter().position(|r| Some((r.id, r.copy)) == focus)
             && let (Some(top), Some(row)) = (tops.get(i).copied(), rows.get(i))
         {
-            let above = if row.group.is_some() { GROUP_H } else { 0.0 };
+            let above = if row.group.is_some() { px(GROUP_H) } else { 0.0 };
             let rect = Rect::from_min_max(pos2(origin.x, origin.y + top - above), pos2(origin.x + width, origin.y + top + row_h));
             ui.scroll_to_rect(rect, None);
         }
@@ -632,18 +666,18 @@ fn list(app: &mut MailApp, ui: &mut Ui) {
         let first = tops.partition_point(|top| top + row_h < viewport.min.y).saturating_sub(1);
         for (i, row) in rows.iter().enumerate().skip(first) {
             let Some(top) = tops.get(i).copied() else { break };
-            if top - GROUP_H > viewport.max.y {
+            if top - px(GROUP_H) > viewport.max.y {
                 break;
             }
             if let Some(group) = &row.group {
                 // Text on the list itself: no bar, no box.
-                let gr = Rect::from_min_max(pos2(origin.x + ROW_INSET, origin.y + top - GROUP_H), pos2(origin.x + width, origin.y + top));
+                let gr = Rect::from_min_max(pos2(origin.x + ROW_INSET, origin.y + top - px(GROUP_H)), pos2(origin.x + width, origin.y + top));
                 paint_clipped(
                     ui.painter(),
                     pos2(gr.min.x + 16.0, gr.center().y + 3.0),
                     gr.width() - 22.0,
                     group_name(group, row.category),
-                    semibold(GROUP_TEXT),
+                    semibold(px(GROUP_TEXT)),
                     t.group_label,
                 );
             }
@@ -720,7 +754,7 @@ fn paint_result_folder(p: &egui::Painter, end: egui::Pos2, label: &str, t: &Toke
     }
     let mut job = egui::text::LayoutJob::single_section(
         label.to_string(),
-        egui::text::TextFormat { font_id: regular(LIST_TEXT), color: t.text_dim, ..Default::default() },
+        egui::text::TextFormat { font_id: regular(px(LIST_TEXT)), color: t.text_dim, ..Default::default() },
     );
     job.wrap = egui::text::TextWrapping { max_width: width, max_rows: 1, break_anywhere: true, overflow_character: Some('…') };
     let galley = p.layout_job(job);
@@ -870,8 +904,8 @@ fn message_row(app: &mut MailApp, ui: &mut Ui, row: &Row, rect: Rect, drawn: &Dr
         .on_hover_text(if unread { tl!("Mark as read") } else { tl!("Mark as unread") });
     app.hit.add("messageRead", row.id, strip);
     let one = app.session.prefs.one_line;
-    let line1 = if one { rect.center().y } else { rect.min.y + SENDER_Y };
-    let line2 = if one { rect.center().y } else { rect.min.y + SUBJECT_Y };
+    let line1 = if one { rect.center().y } else { rect.min.y + px(SENDER_Y) };
+    let line2 = if one { rect.center().y } else { rect.min.y + px(SUBJECT_Y) };
     // With tighter spacing a row's lines move up by half of what it gave up (`view.density`).
     let lift = tightening(app.session.prefs.tight_spacing, one) / 2.0;
     let (line1, line2) = if one { (line1, line2) } else { (line1 - lift, line2 - lift) };
@@ -992,10 +1026,10 @@ fn message_row(app: &mut MailApp, ui: &mut Ui, row: &Row, rect: Rect, drawn: &Dr
     let text_left = TEXT_LEFT + if row.under.is_some() { UNDER_INDENT } else { 0.0 };
     if pictured {
         let who = if outgoing { m.to.first().unwrap_or(&m.from) } else { &m.from };
-        let center = pos2(rect.min.x + text_left + AVATAR_RADIUS, rect.min.y + AVATAR_Y);
-        crate::sender_images::avatar(app, ui, center, AVATAR_RADIUS, &m, who);
+        let center = pos2(rect.min.x + text_left + px(AVATAR_RADIUS), rect.min.y + px(AVATAR_Y));
+        crate::sender_images::avatar(app, ui, center, px(AVATAR_RADIUS), &m, who);
     }
-    let left = rect.min.x + text_left + if pictured { 2.0 * AVATAR_RADIUS + AVATAR_GAP } else { 0.0 };
+    let left = rect.min.x + text_left + if pictured { 2.0 * px(AVATAR_RADIUS) + AVATAR_GAP } else { 0.0 };
     // Where the time ends, and where the text of every line does.
     let time_end = rect.max.x - TIME_RIGHT;
     let text_end = rect.max.x - TEXT_RIGHT;
@@ -1008,9 +1042,9 @@ fn message_row(app: &mut MailApp, ui: &mut Ui, row: &Row, rect: Rect, drawn: &Dr
     let date =
         crate::dates::list_label(mailcraft_engine::list::when(&m), app.session.now(), app.session.offset_at(m.date), app.session.prefs.twelve_hour);
     let (date_font, date_color) = match (unread, overdue) {
-        (true, false) => (semibold(LIST_TEXT), t.text),
-        (true, true) => (semibold(LIST_TEXT), t.overdue),
-        (false, _) => (regular(LIST_TEXT), if overdue { t.overdue } else { t.text }),
+        (true, false) => (semibold(px(LIST_TEXT)), t.text),
+        (true, true) => (semibold(px(LIST_TEXT)), t.overdue),
+        (false, _) => (regular(px(LIST_TEXT)), if overdue { t.overdue } else { t.text }),
     };
     if let Some((delete, flag)) = &quick {
         for (resp, at, icon, color) in
@@ -1083,7 +1117,7 @@ fn message_row(app: &mut MailApp, ui: &mut Ui, row: &Row, rect: Rect, drawn: &Dr
     // Arranged by size, the message's size (#273); in a single line it comes before the marks, so
     // the sender's name stops short of it there, and a line with no room for both keeps the name.
     let size = size_label(&app.session, &m)
-        .map(|label| p.layout_no_wrap(label, regular(LIST_TEXT), t.text_dim))
+        .map(|label| p.layout_no_wrap(label, regular(px(LIST_TEXT)), t.text_dim))
         .filter(|g| !one || x - 4.0 - (g.size().x + 6.0) >= left + ONE_LINE_SENDER_MIN);
     let size_room = if one { size.as_ref().map_or(0.0, |g| g.size().x + 6.0) } else { 0.0 };
     // A Gmail account's labels of it (#1153), as tags at the tail: what is painted after them
@@ -1098,11 +1132,11 @@ fn message_row(app: &mut MailApp, ui: &mut Ui, row: &Row, rect: Rect, drawn: &Dr
         + if conversation { row.size().to_string().len() as f32 * 6.5 + 15.0 } else { 0.0 };
     let one_tags =
         if one { plan_tags(p, &labels, labels_more, x - 4.0 - size_room - tail_after - (left + ONE_LINE_SENDER_MIN)) } else { TagPlan::default() };
-    let who_font = if unread { semibold(SENDER_TEXT) } else { regular(SENDER_TEXT) };
+    let who_font = if unread { semibold(px(SENDER_TEXT)) } else { regular(px(SENDER_TEXT)) };
     let who_end = if one { (left + one_line_sender_width(time_end - left)).min(x - 4.0 - size_room - one_tags.width) } else { text_end.min(x - 4.0) };
     let mut who_x = left;
     if m.draft {
-        let w = paint_clipped(p, pos2(left, line1), (who_end - left).max(0.0), tl!("[Draft]"), regular(SENDER_TEXT), t.red);
+        let w = paint_clipped(p, pos2(left, line1), (who_end - left).max(0.0), tl!("[Draft]"), regular(px(SENDER_TEXT)), t.red);
         who_x += w + 5.0;
     }
     let w = paint_clipped(p, pos2(who_x, line1), (who_end - who_x).max(0.0), &who, who_font, if overdue { t.overdue } else { t.text });
@@ -1116,7 +1150,7 @@ fn message_row(app: &mut MailApp, ui: &mut Ui, row: &Row, rect: Rect, drawn: &Dr
     // size of a conversation: at the right of the preview's first line, under the time, before
     // the time when no preview is shown, or before the marks in a single line.
     let lines = if one { 0 } else { app.session.prefs.preview_lines.min(3) };
-    let preview_y = rect.min.y + PREVIEW_TOP + PREVIEW_PITCH / 2.0 + 0.5;
+    let preview_y = rect.min.y + px(PREVIEW_TOP) + px(PREVIEW_PITCH) / 2.0 + 0.5;
     let (mut sx, tail_y) = if one {
         (x, line1)
     } else if lines > 0 {
@@ -1171,9 +1205,9 @@ fn message_row(app: &mut MailApp, ui: &mut Ui, row: &Row, rect: Rect, drawn: &Dr
     }
     let subject = if m.subject.trim().is_empty() { tl!("(no subject)") } else { m.subject.as_str() };
     let (sfont, scolor) = match (unread, overdue) {
-        (true, false) => (semibold(LIST_TEXT), t.text),
-        (true, true) => (semibold(LIST_TEXT), t.overdue),
-        (false, _) => (regular(LIST_TEXT), if overdue { t.overdue } else { t.text }),
+        (true, false) => (semibold(px(LIST_TEXT)), t.text),
+        (true, true) => (semibold(px(LIST_TEXT)), t.overdue),
+        (false, _) => (regular(px(LIST_TEXT)), if overdue { t.overdue } else { t.text }),
     };
     let subject_x = if one { who_end + 10.0 } else { left };
     paint_clipped(p, pos2(subject_x, line2), (subject_end - subject_x).max(0.0), subject, sfont, scolor);
@@ -1183,7 +1217,7 @@ fn message_row(app: &mut MailApp, ui: &mut Ui, row: &Row, rect: Rect, drawn: &Dr
     if lines > 0 && preview_end - left > 4.0 {
         let said = preview(ui, &m, usize::from(lines) * 200);
         let format =
-            egui::text::TextFormat { font_id: regular(LIST_TEXT), color: t.text_dim, line_height: Some(PREVIEW_PITCH), ..Default::default() };
+            egui::text::TextFormat { font_id: regular(px(LIST_TEXT)), color: t.text_dim, line_height: Some(px(PREVIEW_PITCH)), ..Default::default() };
         let mut job = egui::text::LayoutJob::default();
         job.append(&said, 0.0, format);
         job.wrap =
@@ -1191,7 +1225,7 @@ fn message_row(app: &mut MailApp, ui: &mut Ui, row: &Row, rect: Rect, drawn: &Dr
         let galley = p.layout_job(job);
         // A word too long for the column runs on: it stops at the column's edge.
         let clip = Rect::from_min_max(pos2(left, rect.min.y), pos2(preview_end, rect.max.y - 1.0)).intersect(p.clip_rect());
-        p.with_clip_rect(clip).galley(pos2(left, rect.min.y + PREVIEW_TOP), galley, t.text_dim);
+        p.with_clip_rect(clip).galley(pos2(left, rect.min.y + px(PREVIEW_TOP)), galley, t.text_dim);
     }
 
     // Quick actions over the row under the pointer.
