@@ -94,13 +94,15 @@ impl From<Appearance> for String {
 pub struct InterfaceSize(u16);
 
 impl InterfaceSize {
-    pub const MIN: u16 = 80;
+    pub const MIN: u16 = 70;
+    /// The smallest interface size (the message list's text may go lower, to `MIN`).
+    pub const INTERFACE_MIN: u16 = 80;
     pub const MAX: u16 = 200;
     pub const DEFAULT: InterfaceSize = InterfaceSize(100);
     /// The choices in File › Options, in percent.
     pub const PRESETS: [u16; 8] = [80, 90, 100, 110, 125, 150, 175, 200];
 
-    /// A size from any number: rounded and clamped to 80–200 %; `None` for NaN or infinity.
+    /// A size from any number: rounded and clamped to 70–200 %; `None` for NaN or infinity.
     pub fn from_percent(percent: f64) -> Option<InterfaceSize> {
         percent.is_finite().then(|| InterfaceSize(percent.round().clamp(f64::from(Self::MIN), f64::from(Self::MAX)) as u16))
     }

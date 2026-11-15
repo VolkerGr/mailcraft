@@ -14721,7 +14721,7 @@ msgid "Show in Calendar"
 msgstr "Mostra nel calendario"
 
 #. command label, interface
-#: crates/engine/src/cmd/view.rs crates/ui-egui/src/ribbon.rs
+#: crates/engine/src/cmd/view.rs crates/ui-egui/src/mail_view.rs crates/ui-egui/src/ribbon.rs
 msgid "Show in Groups"
 msgstr "Mostra in gruppi"
 

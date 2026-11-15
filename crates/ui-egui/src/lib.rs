@@ -1167,7 +1167,7 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
         r#"{"language": "auto"|"en"|"fr"|"de"|"es"|"it"|"nl"|"ro"|"hu"|"pl"|"cs"|"zh_CN"|"ka"|"pseudo"}"#,
     ),
     ("ui.interfaceSize", "Interface Size", "File › Options", r#"{"value": 80-200}"#),
-    ("ui.listTextSize", "List Text Size", "View", r#"{"value": 80-200} — the text size of the message list's rows, in percent"#),
+    ("ui.listTextSize", "List Text Size", "View", r#"{"value": 70-200} — the text size of the message list's rows, in percent"#),
     (
         "ui.previewAttachment",
         "Preview Attachment",
@@ -2806,7 +2806,12 @@ impl MailApp {
                 self.apply_language();
                 Ok(json!({"language": self.ui.language, "inForce": self.language().code()}))
             }
-            "ui.interfaceSize" => match p.get("value").and_then(Value::as_f64).and_then(theme::InterfaceSize::from_percent) {
+            "ui.interfaceSize" => match p
+                .get("value")
+                .and_then(Value::as_f64)
+                .map(|v| v.max(f64::from(theme::InterfaceSize::INTERFACE_MIN)))
+                .and_then(theme::InterfaceSize::from_percent)
+            {
                 Some(size) => {
                     self.ui.interface_size = size;
                     Ok(json!({"value": size.percent()}))
@@ -2818,7 +2823,7 @@ impl MailApp {
                     self.ui.list_size = size;
                     Ok(json!({"value": size.percent()}))
                 }
-                None => Err("`value` is a percentage from 80 to 200".into()),
+                None => Err("`value` is a percentage from 70 to 200".into()),
             },
             "ui.advancedSearch" => advanced_search::command(self, p),
             "ui.previewAttachment" => attachment_preview::command(self, p),
