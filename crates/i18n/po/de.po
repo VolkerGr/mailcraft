@@ -620,11 +620,6 @@ msgstr "Eine Webadresse, eine E-Mail-Adresse, eine Telefonnummer (tel:) oder ein
 msgid "AM"
 msgstr "AM"
 
-#. interface
-#: crates/ui-egui/src/mail_view.rs
-msgid "Aa"
-msgstr "Aa"
-
 #. android, ribbon location
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/Navigation.kt crates/ui-egui/src/lib.rs
 #, fuzzy
@@ -10780,15 +10775,15 @@ msgid "Opens GitHub's page in your browser, filled in: you check it and submit i
 msgstr "Öffnet die bereits ausgefüllte GitHub-Seite in Ihrem Browser. Sie überprüfen die Angaben und reichen den Bericht dort ein."
 
 #. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Opens MailCraft's control channel on this computer only, at every start, so an agent can drive it through MCP (mailcraft-cli mcp --connect). Takes effect the next time MailCraft starts."
+msgstr "Öffnet bei jedem Start den Steuerkanal von MailCraft, nur auf diesem Computer, damit ein Agent die App über MCP bedienen kann (mailcraft-cli mcp --connect). Gilt ab dem nächsten Start."
+
+#. interface
 #: crates/ui-egui/src/account_setup/help.rs
 #, fuzzy
 msgid "Opens Microsoft's approval page in your browser. Sign in there with an administrator account and accept; MailCraft carries on by itself."
 msgstr "Öffnet die Genehmigungsseite von Microsoft in Ihrem Browser. Melden Sie sich dort mit einem Administratorkonto an und stimmen Sie zu; MailCraft macht dann selbstständig weiter."
-
-#. interface
-#: crates/ui-egui/src/backstage.rs
-msgid "Opens MailCraft's control channel on this computer only, at every start, so an agent can drive it through MCP (mailcraft-cli mcp --connect). Takes effect the next time MailCraft starts."
-msgstr "Öffnet bei jedem Start den Steuerkanal von MailCraft, nur auf diesem Computer, damit ein Agent die App über MCP bedienen kann (mailcraft-cli mcp --connect). Gilt ab dem nächsten Start."
 
 #. interface
 #: crates/ui-egui/src/reading/sharing.rs
@@ -24155,6 +24150,9 @@ msgstr "−Bin"
 #, fuzzy
 msgid "−Lines"
 msgstr "−Zeilen"
+
+#~ msgid "Aa"
+#~ msgstr "Aa"
 
 #, fuzzy
 #~ msgid "Capitalize the first word of sentences"

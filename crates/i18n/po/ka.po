@@ -3641,6 +3641,11 @@ msgstr "მონაწილეები"
 msgid "Contributors choose their own names; see docs/contributors.md."
 msgstr "მონაწილეები სახელებს თავად ირჩევენ; იხ. docs/contributors.md."
 
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Control port"
+msgstr ""
+
 #. android
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/MailListBar.kt
 #, fuzzy
@@ -8128,6 +8133,16 @@ msgstr "შენიშვნების ჩამოთვლა"
 msgid "List Tasks"
 msgstr "დავალებების ჩამოთვლა"
 
+#. command label
+#: crates/ui-egui/src/lib.rs
+msgid "List Text Size"
+msgstr ""
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "List text size"
+msgstr ""
+
 #. android
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/Tasks.kt
 #, fuzzy
@@ -11462,6 +11477,11 @@ msgid "Opens GitHub's page in your browser, filled in: you check it and submit i
 msgstr "ბრაუზერში ხსნის GitHub-ის შევსებულ გვერდს: იქ შეამოწმებთ და გააგზავნით."
 
 #. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Opens MailCraft's control channel on this computer only, at every start, so an agent can drive it through MCP (mailcraft-cli mcp --connect). Takes effect the next time MailCraft starts."
+msgstr ""
+
+#. interface
 #: crates/ui-egui/src/account_setup/help.rs
 msgid "Opens Microsoft's approval page in your browser. Sign in there with an administrator account and accept; MailCraft carries on by itself."
 msgstr ""
@@ -14762,7 +14782,7 @@ msgid "Show in Calendar"
 msgstr "კალენდარში ჩვენება"
 
 #. command label, interface
-#: crates/engine/src/cmd/view.rs crates/ui-egui/src/ribbon.rs
+#: crates/engine/src/cmd/view.rs crates/ui-egui/src/mail_view.rs crates/ui-egui/src/ribbon.rs
 #, fuzzy
 msgid "Show in Groups"
 msgstr "ჯგუფებში ჩვენება"
@@ -15451,6 +15471,16 @@ msgstr "დაწყების თარიღი:"
 msgid "Start over"
 msgstr "თავიდან დაწყება"
 
+#. command label
+#: crates/ui-egui/src/lib.rs
+msgid "Start the Control Channel at Launch"
+msgstr ""
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Start the control channel at launch"
+msgstr ""
+
 #. interface
 #: crates/ui-egui/src/auto_replies.rs
 #, fuzzy
@@ -16014,6 +16044,13 @@ msgstr "ტექსტი"
 
 #. ribbon
 #: crates/ui-egui/src/ribbon.rs
+msgid ""
+"Text\n"
+"Size"
+msgstr ""
+
+#. ribbon
+#: crates/ui-egui/src/ribbon.rs
 #, fuzzy
 msgid "Text Box"
 msgstr "ტექსტური ბლოკი"
@@ -16029,6 +16066,16 @@ msgstr "ტექსტის ეფექტები"
 #, fuzzy
 msgid "Text Highlight Color"
 msgstr "მარკერის ფერი"
+
+#. ribbon
+#: crates/ui-egui/src/ribbon.rs
+msgid "Text Size of the List"
+msgstr ""
+
+#. interface
+#: crates/ui-egui/src/mail_view.rs
+msgid "Text size of the list"
+msgstr ""
 
 #. interface
 #: crates/ui-egui/src/forms.rs
