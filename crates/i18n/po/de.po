@@ -3452,6 +3452,11 @@ msgstr "Mitwirkende wählen ihren Namen selbst; siehe docs/contributors.md."
 
 #. interface
 #: crates/ui-egui/src/backstage.rs
+msgid "Control and list"
+msgstr "Steuerkanal und Liste"
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
 msgid "Control port"
 msgstr "Steuerport"
 

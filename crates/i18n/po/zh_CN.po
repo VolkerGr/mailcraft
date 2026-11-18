@@ -3654,6 +3654,11 @@ msgstr "贡献者选择自己的名字；请参阅 docs/contributors.md。"
 
 #. interface
 #: crates/ui-egui/src/backstage.rs
+msgid "Control and list"
+msgstr ""
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
 msgid "Control port"
 msgstr ""
 
