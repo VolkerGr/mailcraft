@@ -3629,6 +3629,11 @@ msgstr "Współtwórcy"
 msgid "Contributors choose their own names; see docs/contributors.md."
 msgstr "Współtwórcy sami wybierają swoje nazwy; zobacz docs/contributors.md."
 
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Control port"
+msgstr ""
+
 #. android
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/MailListBar.kt
 #, fuzzy
@@ -8142,6 +8147,16 @@ msgstr "Wyświetl notatki"
 msgid "List Tasks"
 msgstr "Wyświetl zadania"
 
+#. command label
+#: crates/ui-egui/src/lib.rs
+msgid "List Text Size"
+msgstr ""
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "List text size"
+msgstr ""
+
 #. android
 #: apps/mailcraft-android/app/src/main/kotlin/work/mailcraft/android/Tasks.kt
 #, fuzzy
@@ -11461,6 +11476,11 @@ msgid "Opens GitHub's page in your browser, filled in: you check it and submit i
 msgstr "Otwiera w przeglądarce wypełnioną stronę GitHuba: sprawdzasz ją i wysyłasz tam."
 
 #. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Opens MailCraft's control channel on this computer only, at every start, so an agent can drive it through MCP (mailcraft-cli mcp --connect). Takes effect the next time MailCraft starts."
+msgstr ""
+
+#. interface
 #: crates/ui-egui/src/account_setup/help.rs
 #, fuzzy
 msgid "Opens Microsoft's approval page in your browser. Sign in there with an administrator account and accept; MailCraft carries on by itself."
@@ -14756,7 +14776,7 @@ msgid "Show in Calendar"
 msgstr "Pokaż w kalendarzu"
 
 #. command label, interface
-#: crates/engine/src/cmd/view.rs crates/ui-egui/src/ribbon.rs
+#: crates/engine/src/cmd/view.rs crates/ui-egui/src/mail_view.rs crates/ui-egui/src/ribbon.rs
 #, fuzzy
 msgid "Show in Groups"
 msgstr "Pokaż w grupach"
@@ -15431,6 +15451,16 @@ msgstr "Data rozpoczęcia:"
 msgid "Start over"
 msgstr "Zacznij od nowa"
 
+#. command label
+#: crates/ui-egui/src/lib.rs
+msgid "Start the Control Channel at Launch"
+msgstr ""
+
+#. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Start the control channel at launch"
+msgstr ""
+
 #. interface
 #: crates/ui-egui/src/auto_replies.rs
 #, fuzzy
@@ -15997,6 +16027,13 @@ msgstr "Tekst"
 
 #. ribbon
 #: crates/ui-egui/src/ribbon.rs
+msgid ""
+"Text\n"
+"Size"
+msgstr ""
+
+#. ribbon
+#: crates/ui-egui/src/ribbon.rs
 #, fuzzy
 msgid "Text Box"
 msgstr "Pole tekstowe"
@@ -16012,6 +16049,16 @@ msgstr "Efekty tekstowe"
 #, fuzzy
 msgid "Text Highlight Color"
 msgstr "Kolor wyróżnienia tekstu"
+
+#. ribbon
+#: crates/ui-egui/src/ribbon.rs
+msgid "Text Size of the List"
+msgstr ""
+
+#. interface
+#: crates/ui-egui/src/mail_view.rs
+msgid "Text size of the list"
+msgstr ""
 
 #. interface
 #: crates/ui-egui/src/forms.rs

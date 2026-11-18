@@ -11442,15 +11442,15 @@ msgid "Opens GitHub's page in your browser, filled in: you check it and submit i
 msgstr "Abre la página de GitHub en su navegador, ya rellenada: usted la revisa y la envía allí."
 
 #. interface
+#: crates/ui-egui/src/backstage.rs
+msgid "Opens MailCraft's control channel on this computer only, at every start, so an agent can drive it through MCP (mailcraft-cli mcp --connect). Takes effect the next time MailCraft starts."
+msgstr ""
+
+#. interface
 #: crates/ui-egui/src/account_setup/help.rs
 #, fuzzy
 msgid "Opens Microsoft's approval page in your browser. Sign in there with an administrator account and accept; MailCraft carries on by itself."
 msgstr "Abre la página de aprobación de Microsoft en tu navegador. Inicia sesión allí con una cuenta de administrador y acepta; MailCraft continúa por sí solo."
-
-#. interface
-#: crates/ui-egui/src/backstage.rs
-msgid "Opens MailCraft's control channel on this computer only, at every start, so an agent can drive it through MCP (mailcraft-cli mcp --connect). Takes effect the next time MailCraft starts."
-msgstr ""
 
 #. interface
 #: crates/ui-egui/src/reading/sharing.rs
@@ -15978,6 +15978,13 @@ msgstr "Texto"
 
 #. ribbon
 #: crates/ui-egui/src/ribbon.rs
+msgid ""
+"Text\n"
+"Size"
+msgstr ""
+
+#. ribbon
+#: crates/ui-egui/src/ribbon.rs
 #, fuzzy
 msgid "Text Box"
 msgstr "Cuadro de texto"
@@ -15993,6 +16000,11 @@ msgstr "Efectos de texto"
 #, fuzzy
 msgid "Text Highlight Color"
 msgstr "Color de resaltado del texto"
+
+#. ribbon
+#: crates/ui-egui/src/ribbon.rs
+msgid "Text Size of the List"
+msgstr ""
 
 #. interface
 #: crates/ui-egui/src/mail_view.rs
