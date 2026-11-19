@@ -27,10 +27,13 @@ pub(crate) struct MessageDrag(pub Vec<Id>);
 const GROUP_H: f32 = 25.0;
 /// A group heading's text: 9 pt.
 const GROUP_TEXT: f32 = 12.0;
-/// The sender's name, and the tabs above the list: 11 pt.
-const SENDER_TEXT: f32 = 15.0;
-/// Subject, time and preview: 8 pt.
-const LIST_TEXT: f32 = 11.0;
+/// The tabs above the list.
+const TAB_TEXT: f32 = 15.0;
+/// The sender's name, the subject, the time and the preview all in one size (Volker's change:
+/// upstream draws the sender at 15 and the rest at 11).
+const SENDER_TEXT: f32 = 13.0;
+/// Subject, time and preview.
+const LIST_TEXT: f32 = 13.0;
 /// How the list is arranged, in its header: 9 pt.
 const SORT_TEXT: f32 = 12.0;
 /// The list's header (the filter's tabs, the arrangement). Its last pixel row is the line under
@@ -341,7 +344,7 @@ fn list_header(app: &mut MailApp, ui: &mut Ui) {
 
     // The tabs. A filter that has none (Flagged, Has Attachments, To Me) shows as a third one
     // while it is in use.
-    let width = |f: Filter| ui.ctx().fonts_mut(|fonts| fonts.layout_no_wrap(tl!(f.label()).to_string(), regular(SENDER_TEXT), t.text).size().x);
+    let width = |f: Filter| ui.ctx().fonts_mut(|fonts| fonts.layout_no_wrap(tl!(f.label()).to_string(), regular(TAB_TEXT), t.text).size().x);
     let mut tabs = vec![(Filter::All, 0u64, width(Filter::All)), (Filter::Unread, 1, width(Filter::Unread))];
     if !matches!(filter, Filter::All | Filter::Unread) {
         tabs.push((filter, 2, width(filter)));
@@ -372,7 +375,7 @@ fn list_header(app: &mut MailApp, ui: &mut Ui) {
         let tab = Rect::from_min_max(pos2(x, r.min.y + 18.0), pos2(x + w + 3.0, r.max.y));
         let resp = ui.interact(tab.expand2(vec2(5.0, 0.0)), ui.scope_id().with(("list_tab", n)), Sense::click());
         app.hit.add("listTab", n, tab);
-        paint_clipped(ui.painter(), pos2(x + 2.0, r.min.y + 31.5), w + 1.0, label, regular(SENDER_TEXT), if on { t.accent_text } else { t.text });
+        paint_clipped(ui.painter(), pos2(x + 2.0, r.min.y + 31.5), w + 1.0, label, regular(TAB_TEXT), if on { t.accent_text } else { t.text });
         let under = Rect::from_min_max(pos2(tab.min.x, r.max.y - 1.0), tab.max);
         if on {
             ui.painter().rect_filled(under, 0.0, t.accent_text);
